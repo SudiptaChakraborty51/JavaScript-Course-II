@@ -16,6 +16,18 @@
     </style>
 </head>
 <body>
-    <button>+</button>
+    <button id="btnElement">+</button>
+
+    <script>
+        let counter = 0;
+         function incrementCounter(){
+            counter = counter+1;
+            console.log(counter);
+         }
+
+         const btnElement = document.querySelector("#btnElement");
+
+         btnElement.addEventListener("click", incrementCounter, false);
+    </script>
 </body>
 </html>

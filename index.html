@@ -16,18 +16,26 @@
     </style>
 </head>
 <body>
+    <input id="inputElement" type="text"/>
     <button id="btnElement">+</button>
+    <div style="display: flex; flex-direction: row">Total expense is :  <div id="result"></div></div>
 
     <script>
-        let counter = 0;
-         function incrementCounter(){
-            counter = counter+1;
-            console.log(counter);
-         }
+        let totalExpense = 0;
+        
+        function addExpenses(){
+            const btnElement = document.querySelector("#btnElement");
+            const inputElement = document.querySelector("#inputElement");
+            const result = document.querySelector("#result");
 
-         const btnElement = document.querySelector("#btnElement");
+            const inputText = inputElement.value;
+            const expense = parseInt(inputText, 10);
 
-         btnElement.addEventListener("click", incrementCounter, false);
+            totalExpense = totalExpense + expense;
+            result.textContent = totalExpense;
+        }
+
+        btnElement.addEventListener("click", addExpenses, false);
     </script>
 </body>
 </html>

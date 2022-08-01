@@ -4,23 +4,61 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+	/>
+    <script
+        defer
+        src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"
+        integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP"
+        crossorigin="anonymous">
+    </script>
     <title>Personal Expense Calculator</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-    </style>
 </head>
 <body>
-    <input id="inputDesc" type="text">
-    <input id="inputAmount" type="text">
-    <button id="btnElement">+</button>
-    <div style="display: flex; flex-direction: row">Total expense is :  <div id="result"></div></div>
-
+    <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand mb-0 h1">Expensedeck</span>
+    </nav>
+    <div class="container-fluid bg-light" style="min-height: 100vh">
+        <div class="container">
+            <div class="jumbotron mt-4">
+                <div class="input-group mb-3">
+                    <input
+                        type="text"
+                        id="inputDesc"
+                        class="form-control"
+                        placeholder="spent On"
+                        aria-label="spent On"
+                        aria-describedby="spent at"
+                    />
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="spent at">@</span>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="spent in rupee">₹</span>
+                    </div>
+                    <input
+                        type="text"
+                        id="inputAmount"
+                        class="form-control"
+                        placeholder="Amount spent"
+                        aria-label="Amount spent"
+                        aria-describedby="spent in rupee"
+                    />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="button" id="btnElement">Add</button>
+                    </div>
+                </div>
+            </div>
+            <div id="result"></div>
+            <div id="expenseTable"></div>
+        </div>
+    </div>
     <script>
         let totalExpense = 0;
 
@@ -30,6 +68,7 @@
         const inputAmount = document.querySelector("#inputAmount");
         const inputDesc = document.querySelector("#inputDesc");
         const result = document.querySelector("#result");
+        const expenseTable = document.querySelector("#expenseTable");
         
         function addExpenses(){
             const expenseItem = {};
@@ -39,13 +78,28 @@
             const expense = parseInt(inputText, 10);
 
             totalExpense = totalExpense + expense;
-            result.textContent = totalExpense;
+            // result.textContent = totalExpense;
+            result.textContent = `Total Expense = ${totalExpense}`;
 
             expenseItem.desc = inputDescription;
             expenseItem.amount = expense;
-
             allExpenses.push(expenseItem);
+            // console.log(allExpenses);
 
+            // const data1 = `Desc : ${allExpenses[0].desc} :: Amount : ${allExpenses[0].amount}`;
+            // const data2 = `Desc : ${allExpenses[1].desc} :: Amount : ${allExpenses[1].amount}`;
+
+            // expenseTable.textContent = data1 + data2;
+            // expenseTable.innerHTML = `
+            //     <div>${data1}</div>
+            //     <div>${data2}</div>
+            // `;
+
+            const allExpensesHTML = allExpenses.map(expense => {
+                return `<div>${expense.desc} : ${expense.amount}<div>`;
+            })
+
+            expenseTable.innerHTML = allExpensesHTML.join("");
             console.clear();
             console.table(allExpenses);
         }

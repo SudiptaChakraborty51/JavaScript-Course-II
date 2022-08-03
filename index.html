@@ -39,6 +39,7 @@
                     </div>
                 </div>
             </div>
+            <div id="errorMessage" style="color: red; text-align: center"></div>
             <div>
                 <ul class="list-group" id="expenseTable">
                 </ul>
@@ -54,6 +55,7 @@
         const inputAmount = document.querySelector("#inputAmount");
         const inputDesc = document.querySelector("#inputDesc");
         const result = document.querySelector("#result");
+        const error = document.querySelector("#errorMessage");
         const expenseTable = document.querySelector("#expenseTable");
 
         function addExpenses() {
@@ -63,14 +65,22 @@
             const inputDescription = inputDesc.value;
             const expense = parseInt(inputText, 10);
 
-            totalExpense = totalExpense + expense;
-            result.textContent = `Total Expenses = ${totalExpense}`;
-
             expenseItem.desc = inputDescription;
             expenseItem.amount = expense;
             expenseItem.moment = new Date();
-            allExpenses.push(expenseItem);
-            renderList(allExpenses);
+            if (inputAmount.value == "" || inputDesc.value == "") {
+                error.textContent = "Please enter both the values";
+                expenseTable.innerHTML = "";
+                result.textContent = "";
+            } else {
+                error.textContent = "";
+                totalExpense = totalExpense + expense;
+                result.textContent = `Total Expenses = ${totalExpense}`;
+                allExpenses.push(expenseItem);
+                renderList(allExpenses);
+                inputAmount.value = '';
+                inputDesc.value = '';
+            }
         };
 
         btnElement.addEventListener("click", addExpenses, false);
@@ -84,19 +94,13 @@
         }
 
         function deleteItem(dateValue) {
-            // const newExpenses = [];
-            // for (let i = 0; i < allExpenses.length; i++) {
-            //     if (allExpenses[i].moment.valueOf() !== dateValue) {
-            //         newExpenses.push(allExpenses[i]);
-            //     }
-            // }
             const newExpenses = allExpenses.filter((expense) => {
                 if (expense.moment.valueOf() !== dateValue) {
+                    totalExpense = expense.amount;
+                    result.textContent = `Total Expenses = ${totalExpense}`;
                     return expense;
                 }
             })
-            
-            // const newExpenses = allExpenses.filter(expense => expense.moment.valueOf() !== dateValue);
             renderList(newExpenses);
         }
 
